@@ -1,6 +1,6 @@
 SRCDIR=`pwd`
 
-all: org.gnome.Builder org.gnome.gedit org.freedesktop.glxinfo
+all: org.gnome.Builder org.gnome.gedit org.freedesktop.glxgears
 
 repo:
 	ostree  init --mode=archive-z2 --repo=repo
@@ -58,7 +58,6 @@ org.gnome.gedit: repo gedit.spec RPMS/x86_64/gedit-3.16.0-1.sdk.x86_64.rpm
 
 # A bunch of non-prefixed files should not be exported (build-finish should handle this!)
 	rm gedit.app/export/share/icons/hicolor/*/actions/libpeas-plugin.png gedit.app/export/share/icons/hicolor/scalable/actions/libpeas-plugin.svg
-	rm gedit.app/export/share/applications/mimeinfo.cache
 
 	xdg-app build-export repo gedit.app org.gnome.gedit
 
@@ -66,7 +65,7 @@ SOURCES/mesa-demos-8.2.0.tar.bz2:
 	wget -P SOURCES ftp://ftp.freedesktop.org/pub/mesa/demos/8.2.0/mesa-demos-8.2.0.tar.bz2
 
 RPMS/x86_64/mesa-demos-8.2.0-1.sdk.x86_64.rpm: SOURCES/mesa-demos-8.2.0.tar.bz2
-	gnome-sdk-bundles/install-rpms mesa-demos.appbuild org.freedesktop.Sdk org.freedesktop.Platform 1.0 freeglut-dev libGLU-dev glew-dev
+	gnome-sdk-bundles/install-rpms mesa-demos.appbuild org.freedesktop.Sdk org.freedesktop.Platform 3.16 freeglut-dev libGLU-dev glew-dev
 	xdg-app build mesa-demos.appbuild rpmbuild --define "_topdir ${SRCDIR}" --clean -bb mesa-demos.spec
 	rm -rf mesa-demos.appbuild
 
