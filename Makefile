@@ -40,6 +40,7 @@ org.gnome.Builder: repo gnome-builder
 	rm gnome-builder.app/export/share/icons/hicolor/scalable/*/*.svg
 
 	xdg-app build-export repo gnome-builder.app org.gnome.Builder
+	rm -rf gnome-builder.app
 
 SOURCES/gedit-3.16.0.tar.xz:
 	wget -P SOURCES http://download.gnome.org/sources/gedit/3.16/gedit-3.16.0.tar.xz
@@ -60,19 +61,21 @@ org.gnome.gedit: repo gedit.spec RPMS/x86_64/gedit-3.16.0-1.sdk.x86_64.rpm
 	rm gedit.app/export/share/icons/hicolor/*/actions/libpeas-plugin.png gedit.app/export/share/icons/hicolor/scalable/actions/libpeas-plugin.svg
 
 	xdg-app build-export repo gedit.app org.gnome.gedit
+	rm -rf gedit.app
 
 SOURCES/mesa-demos-8.2.0.tar.bz2:
 	wget -P SOURCES ftp://ftp.freedesktop.org/pub/mesa/demos/8.2.0/mesa-demos-8.2.0.tar.bz2
 
 RPMS/x86_64/mesa-demos-8.2.0-1.sdk.x86_64.rpm: SOURCES/mesa-demos-8.2.0.tar.bz2
-	gnome-sdk-bundles/install-rpms mesa-demos.appbuild org.freedesktop.Sdk org.freedesktop.Platform 3.16 freeglut-dev libGLU-dev glew-dev
+	gnome-sdk-bundles/install-rpms mesa-demos.appbuild org.freedesktop.Sdk org.freedesktop.Platform 1.0 freeglut-dev libGLU-dev glew-dev
 	xdg-app build mesa-demos.appbuild rpmbuild --define "_topdir ${SRCDIR}" --clean -bb mesa-demos.spec
 	rm -rf mesa-demos.appbuild
 
 org.freedesktop.glxgears: repo mesa-demos.spec RPMS/x86_64/mesa-demos-8.2.0-1.sdk.x86_64.rpm
-	gnome-sdk-bundles/install-rpms glxgears.app org.gnome.Sdk org.gnome.Platform 3.16 libGLU libGLEW freeglut
+	gnome-sdk-bundles/install-rpms glxgears.app org.freedesktop.Sdk org.freedesktop.Platform 1.0 libGLU libGLEW freeglut
 	xdg-app build glxgears.app rpm -Uvh RPMS/x86_64/glx-utils-8.2.0-1.sdk.x86_64.rpm
 
 	xdg-app build-finish --allow=ipc --allow=x11 --allow=x11 --allow=wayland --allow=dri glxgears.app
 
 	xdg-app build-export repo glxgears.app org.freedesktop.glxgears
+	rm -rf glxgears.app
