@@ -48,10 +48,10 @@ SOURCES/gedit-3.16.0.tar.xz:
 
 RPMS/x86_64/gedit-3.16.0-1.sdk.x86_64.rpm: SOURCES/gedit-3.16.0.tar.xz
 	gnome-sdk-bundles/install-rpms gedit.appbuild org.gnome.Sdk org.gnome.Platform 3.16 libpeas-dev gtksourceview3-dev
-	xdg-app build gedit.appbuild rpmbuild --define "_topdir ${SRCDIR}" --clean -bb gedit.spec
+	xdg-app build gedit.appbuild rpmbuild --define "_topdir ${SRCDIR}" --clean -bb SPECS/gedit.spec
 	rm -rf gedit.appbuild
 
-org.gnome.gedit: repo gedit.spec RPMS/x86_64/gedit-3.16.0-1.sdk.x86_64.rpm
+org.gnome.gedit: repo SPECS/gedit.spec RPMS/x86_64/gedit-3.16.0-1.sdk.x86_64.rpm
 	gnome-sdk-bundles/install-rpms gedit.app org.gnome.Sdk org.gnome.Platform 3.16 libpeas gtksourceview3
 	xdg-app build gedit.app rpm -Uvh RPMS/x86_64/gedit-3.16.0-1.sdk.x86_64.rpm
 
@@ -68,10 +68,10 @@ SOURCES/mesa-demos-8.2.0.tar.bz2:
 
 RPMS/x86_64/mesa-demos-8.2.0-1.sdk.x86_64.rpm: SOURCES/mesa-demos-8.2.0.tar.bz2
 	gnome-sdk-bundles/install-rpms mesa-demos.appbuild org.freedesktop.Sdk org.freedesktop.Platform 1.0 freeglut-dev libGLU-dev glew-dev
-	xdg-app build mesa-demos.appbuild rpmbuild --define "_topdir ${SRCDIR}" --clean -bb mesa-demos.spec
+	xdg-app build mesa-demos.appbuild rpmbuild --define "_topdir ${SRCDIR}" --clean -bb SPECS/mesa-demos.spec
 	rm -rf mesa-demos.appbuild
 
-org.freedesktop.glxgears: repo mesa-demos.spec RPMS/x86_64/mesa-demos-8.2.0-1.sdk.x86_64.rpm
+org.freedesktop.glxgears: repo RPMS/x86_64/mesa-demos-8.2.0-1.sdk.x86_64.rpm
 	gnome-sdk-bundles/install-rpms glxgears.app org.freedesktop.Sdk org.freedesktop.Platform 1.0 libGLU libGLEW freeglut
 	xdg-app build glxgears.app rpm -Uvh RPMS/x86_64/glx-utils-8.2.0-1.sdk.x86_64.rpm
 
