@@ -14,12 +14,12 @@ org.gnome.Builder: repo gnome-builder
 	mkdir -p gnome-builder.appbuild/files/dest
 
 	gnome-sdk-bundles/install-rpms gnome-builder.app org.gnome.Builder org.gnome.Sdk org.gnome.Sdk 3.16 libgit2-glib devhelp-libs gtksourceview3
-	ln -s `pwd`/gnome-builder.app/files gnome-builder.appbuild/files/dest/self
+	ln -s `pwd`/gnome-builder.app/files gnome-builder.appbuild/files/dest/app
 
 	cd gnome-builder && \
-	xdg-app build ../gnome-builder.appbuild ./autogen.sh --prefix=/self && \
+	xdg-app build ../gnome-builder.appbuild ./autogen.sh --prefix=/app && \
 	xdg-app build ../gnome-builder.appbuild make && \
-	xdg-app build ../gnome-builder.appbuild make install DESTDIR=/self/dest
+	xdg-app build ../gnome-builder.appbuild make install DESTDIR=/app/dest
 
 	rm -rf gnome-builder.appbuild
 
@@ -31,13 +31,10 @@ org.gnome.Builder: repo gnome-builder
 	cp org.gnome.gedit.gschema.xml gnome-builder.app/files/share//glib-2.0/schemas
 
 # Run various triggers
-	xdg-app build gnome-builder.app glib-compile-schemas /self/share/glib-2.0/schemas
-	xdg-app build gnome-builder.app strip /self/bin/gnome-builder
+	xdg-app build gnome-builder.app glib-compile-schemas /app/share/glib-2.0/schemas
+	xdg-app build gnome-builder.app strip /app/bin/gnome-builder
 
-	xdg-app build-finish --allow=ipc --allow=network --allow=x11 --allow=x11 --allow=wayland --allow=session-dbus --allow=host-fs gnome-builder.app
-
-# A bunch of non-prefixed files should not be exported (build-finish should handle this!)
-	rm gnome-builder.app/export/share/icons/hicolor/scalable/*/*.svg
+	xdg-app build-finish --share=network --share=ipc --socket=x11 --socket=wayland --socket=session-bus --filesystem=host gnome-builder.app
 
 	xdg-app build-export repo gnome-builder.app
 	rm -rf gnome-builder.app
@@ -54,11 +51,9 @@ RPMS/x86_64/gedit-3.16.0-1.sdk.x86_64.rpm: SOURCES/gedit-3.16.0.tar.xz
 org.gnome.gedit: repo SPECS/gedit.spec RPMS/x86_64/gedit-3.16.0-1.sdk.x86_64.rpm
 	gnome-sdk-bundles/install-rpms gedit.app org.gnome.gedit org.gnome.Sdk org.gnome.Platform 3.16 libpeas gtksourceview3
 	xdg-app build gedit.app rpm -Uvh RPMS/x86_64/gedit-3.16.0-1.sdk.x86_64.rpm
+	xdg-app build gedit.app bash -c export
 
-	xdg-app build-finish --allow=ipc --allow=network --allow=x11 --allow=x11 --allow=wayland --allow=session-dbus --allow=host-fs gedit.app
-
-# A bunch of non-prefixed files should not be exported (build-finish should handle this!)
-	rm gedit.app/export/share/icons/hicolor/*/actions/libpeas-plugin.png gedit.app/export/share/icons/hicolor/scalable/actions/libpeas-plugin.svg
+	xdg-app build-finish --share=ipc --share=network --socket=x11 --socket=wayland --socket=session-bus --filesystem=host gedit.app
 
 	xdg-app build-export repo gedit.app
 	rm -rf gedit.app
@@ -75,7 +70,7 @@ org.freedesktop.glxgears: repo RPMS/x86_64/mesa-demos-8.2.0-1.sdk.x86_64.rpm
 	gnome-sdk-bundles/install-rpms glxgears.app org.freedesktop.glxgears org.freedesktop.Sdk org.freedesktop.Platform 1.0 libGLU libGLEW freeglut
 	xdg-app build glxgears.app rpm -Uvh RPMS/x86_64/glx-utils-8.2.0-1.sdk.x86_64.rpm
 
-	xdg-app build-finish --allow=ipc --allow=x11 --allow=x11 --allow=wayland --allow=dri glxgears.app
+	xdg-app build-finish --share=ipc --socket=x11 --socket=wayland --device=dri glxgears.app
 
 	xdg-app build-export repo glxgears.app
 	rm -rf glxgears.app
