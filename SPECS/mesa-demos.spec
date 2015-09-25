@@ -27,7 +27,7 @@ The glx-utils package provides the glxinfo and glxgears utilities.
 
 %build
 autoreconf -i
-%configure --bindir=%{_libdir}/mesa --with-system-data-files
+%configure --bindir=%{_libdir}/mesa --with-system-data-files --disable-egl
 make %{?_smp_mflags}
 
 %install

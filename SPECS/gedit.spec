@@ -1,11 +1,11 @@
 Summary:	Text editor for the GNOME desktop
 Name:		gedit
-Version:	3.16.0
+Version:	3.18.0
 Release:	1%{?dist}
 License:	GPLv2+ and GFDL
 Group:		Applications/Editors
 #VCS: git:git://git.gnome.org/gedit
-Source0:	http://download.gnome.org/sources/gedit/3.16/gedit-%{version}.tar.xz
+Source0:	http://download.gnome.org/sources/gedit/3.18/gedit-%{version}.tar.xz
 
 URL:		http://projects.gnome.org/gedit/
 
@@ -54,7 +54,7 @@ intltoolize -f
 	--enable-python=yes \
 	--disable-updater \
 	--enable-gvfs-metadata
-make %{_smp_mflags}
+make %{_smp_mflags} V=1
 
 %install
 make install DESTDIR=$RPM_BUILD_ROOT
